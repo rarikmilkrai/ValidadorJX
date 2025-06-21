@@ -17,11 +17,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar NVM (Node Version Manager) e uma versão específica do Node.js
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
+# CORREÇÃO APLICADA AQUI: Criar o diretório NVM_DIR antes de instalar o NVM
+RUN mkdir -p $NVM_DIR \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
-    && nvm use default
+    && nvm use default \
+    && nvm cache clear # Boa prática para reduzir o tamanho da imagem final
 
 # Adicionar o diretório bin do Node ao PATH
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
