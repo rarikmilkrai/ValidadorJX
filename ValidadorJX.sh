@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # Script Name: ValidadorJX.sh
-# Description: This script will validate Rarik files and provide templates.
-# Author: Your Name
-# Date: 2023-10-27
-# Version: 1.5
+# Description: This script will validate Rarik.
+# Author: Rarikmilkrai Souza
+#insta: @oestudantedevops
+#linkedin: Rarik Souza 
+# Date: 05-08-2023
+# Version: 1.0.0
 
 # --- Configuration for Testing ---
 _SIMULATE_JQ_MISSING=false      # Set to true to test jq missing scenario
@@ -32,7 +34,7 @@ display_banner() {
   echo -e "********************************************************"
   echo -e "*                                                      *"
   echo -e "*             V A L I D A D O R   J X                  *"
-  echo -e "*                                                      *"
+  echo -e "*             autor(Rarikmilkrai Souza)                *"
   echo -e "********************************************************"
   echo -e "${NC}" # Reset color
   echo # Add a newline for spacing
@@ -40,7 +42,7 @@ display_banner() {
 
 display_main_menu() {
   echo "---------------------------"
-  echo "  Validador JX & Ferramentas  "
+  echo "  Validador JX             "
   echo "---------------------------"
   echo "1. Validar JSON (Sintaxe)"
   echo "2. Validar XML (Sintaxe)"
@@ -419,87 +421,3 @@ while true; do
   echo
   read -p "Pressione Enter para continuar..."
 done
-
-# --- Sugestões para Testes Manuais ---
-#
-# Devido à natureza interativa deste script (menus, leitura de input multilinhas),
-# os testes automatizados diretos via pipe simples (ex: echo '...' | ./script.sh)
-# não cobrirão todos os fluxos. Testes manuais são recomendados.
-#
-# Para testar, execute o script: ./ValidadorJX.sh
-#
-# Cenários de Teste Gerais:
-# - Navegar por todas as opções do menu para garantir que as funções corretas são chamadas.
-# - Testar a opção "Ajuda" (7) e "Sair" (0).
-# - Testar entradas inválidas no menu.
-#
-# 1. Validar JSON (Sintaxe) (Opção 1):
-#    - Cole um JSON válido, ex: {"nome": "Teste", "valor": 100} (Ctrl+D para finalizar)
-#      - Verifique "JSON válido!". Responda 's' e 'n' para indentação.
-#    - Cole um JSON inválido, ex: {"nome": "Teste", "valor":} (Ctrl+D)
-#      - Verifique "JSON inválido." e erro do jq.
-#      - Responda 's'/'n' para destaque de erro e modelo.
-#    - Teste com input vazio (apenas Ctrl+D).
-#    - Teste com _SIMULATE_JQ_MISSING=true.
-#
-# 2. Validar XML (Sintaxe) (Opção 2):
-#    - Cole um XML válido, ex: <teste><item>Olá</item></teste> (Ctrl+D)
-#      - Verifique "XML válido!". Responda 's' e 'n' para indentação.
-#    - Cole um XML inválido, ex: <teste><item>Olá</item> (Ctrl+D)
-#      - Verifique "XML inválido." e erro do xmllint.
-#      - Responda 's'/'n' para obter modelo.
-#    - Teste com input vazio (apenas Ctrl+D).
-#    - Teste com _SIMULATE_XMLLINT_MISSING=true.
-#
-# 3. Validar JSON com Schema (Opção 3):
-#    a. Crie os seguintes arquivos de teste:
-#       - test_data.json: {"nome": "John Doe", "idade": 30, "estudante": false}
-#       - test_schema.json: {"type": "object", "properties": {"nome": {"type": "string"}, "idade": {"type": "integer", "minimum": 0}, "estudante": {"type": "boolean"}}, "required": ["nome", "idade"]}
-#       - test_invalid_data.json: {"nome": "Jane Doe", "idade": "vinte"}
-#       - test_invalid_schema.json: {"type": "object", "properties": {"nome": {"type": "strng"}}}
-#    b. Teste validação bem-sucedida:
-#       - Escolha a opção 3. Forneça o caminho para test_data.json e test_schema.json.
-#       - Verifique a mensagem "JSON válido de acordo com o schema!".
-#    c. Teste dados inválidos:
-#       - Forneça test_invalid_data.json e test_schema.json.
-#       - Verifique a mensagem "JSON inválido de acordo com o schema." e os erros.
-#    d. Teste schema inválido:
-#       - Forneça test_data.json e test_invalid_schema.json.
-#       - Verifique a mensagem "Ocorreu um erro ao tentar validar com o ajv..." e a saída do ajv.
-#    e. Teste arquivos não existentes para dados e schema.
-#    f. Teste com _SIMULATE_AJV_MISSING=true (edite o script).
-#    g. Para todos os casos, teste responder 's' e 'n' para "Deseja ver um modelo de JSON Schema?".
-#
-# 4. Validar XML com Schema (XSD) (Opção 4):
-#    a. Crie os seguintes arquivos de teste:
-#       - test_data.xml: <pessoa><nome>John Doe</nome><idade>30</idade></pessoa>
-#       - test_schema.xsd:
-#         <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-#           <xs:element name="pessoa">
-#             <xs:complexType>
-#               <xs:sequence>
-#                 <xs:element name="nome" type="xs:string"/>
-#                 <xs:element name="idade" type="xs:integer"/>
-#               </xs:sequence>
-#             </xs:complexType>
-#           </xs:element>
-#         </xs:schema>
-#       - test_invalid_data.xml: <pessoa><nome>Jane Doe</nome><idade>desconhecida</idade></pessoa>
-#       - test_invalid_schema.xsd: <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:element name="pessoa">...</xs:schem> <!-- Erro de sintaxe -->
-#    b. Teste validação bem-sucedida:
-#       - Escolha a opção 4. Forneça o caminho para test_data.xml e test_schema.xsd.
-#       - Verifique a mensagem "XML válido de acordo com o Schema XSD!".
-#    c. Teste dados inválidos:
-#       - Forneça test_invalid_data.xml e test_schema.xsd.
-#       - Verifique "XML inválido de acordo com o Schema XSD." e os erros.
-#    d. Teste schema XSD inválido:
-#       - Forneça test_data.xml e test_invalid_schema.xsd.
-#       - Verifique "XML inválido de acordo com o Schema XSD." e os erros do xmllint.
-#    e. Teste arquivos não existentes para dados XML e XSD.
-#    f. Teste com _SIMULATE_XMLLINT_MISSING=true (lembre-se que xmllint é usado aqui).
-#    g. Para todos os casos, teste responder 's' e 'n' para "Deseja ver um modelo de XSD?".
-#
-# 5. Obter Modelo JSON (Opção 5): Verifique se o modelo é exibido.
-# 6. Obter Modelo XML (Opção 6): Verifique se o modelo é exibido.
-#
-# --- Fim das Sugestões para Testes Manuais ---
