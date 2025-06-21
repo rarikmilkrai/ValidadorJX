@@ -94,8 +94,5 @@ Esta é a maneira mais simples e recomendada de executar o Validador JX, pois ga
    ```
    Este script também monta o diretório atual em `/data` e explica como usá-lo.
 
-## Contribuindo
-[Seção a ser adicionada no futuro, se necessário]
-
 ## Licença
-[Seção a ser adicionada no futuro, se necessário, por exemplo, MIT]
+GNU
