@@ -49,33 +49,50 @@ Para auxiliar na instalação das dependências listadas acima em sistemas Linux
 
 ### Com Docker (Recomendado para Ambiente Isolado com Dependências)
 
-Esta é a maneira recomendada de executar o Validador JX, pois garante que todas as dependências estejam corretamente configuradas em um ambiente isolado.
+Esta é a maneira mais simples e recomendada de executar o Validador JX, pois garante que todas as dependências estejam corretamente configuradas em um ambiente isolado.
 
 **Pré-requisitos:**
 *   Docker instalado em seu sistema.
 
-**1. Construir a Imagem Docker:**
+**1. Executando a Imagem Pública do Docker Hub (Método Principal):**
+
+   Para executar a versão mais recente do Validador JX diretamente do Docker Hub, utilize o seguinte comando no seu terminal:
+
+   ```bash
+   docker run -it --rm -v "$(pwd):/data" rarikmilkrai/oestudantedevops-validadorjx:1.0.0
+   ```
+
+   *   Este comando irá automaticamente baixar a imagem `rarikmilkrai/oestudantedevops-validadorjx:1.0.0` (versão 1.0.0) se ela ainda não estiver no seu sistema.
+   *   A tag `:latest` também pode estar disponível, apontando para a versão mais recente. Para garantir que você está usando esta versão específica, use a tag `:1.0.0`.
+   *   A flag `-it` garante que você possa interagir com o Validador JX.
+   *   A flag `--rm` remove o contêiner automaticamente após o uso, mantendo seu sistema limpo.
+
+   **Usando Arquivos Locais com a Versão Docker:**
+   O comando acima usa `-v "$(pwd):/data"`. Isso monta o seu diretório atual (de onde você executa o comando) no diretório `/data` dentro do contêiner.
+   Quando o Validador JX (dentro do Docker) pedir um caminho para um arquivo de dados ou um arquivo de schema, você deve fornecer o caminho como se estivesse dentro do contêiner, prefixando com `/data/`.
+
+   *   **Exemplo:** Se você tem um arquivo `meu_arquivo.json` no seu diretório atual no host, e o Validador JX pede o "caminho para o seu arquivo JSON de dados", você digitaria: `/data/meu_arquivo.json`.
+   *   Da mesma forma para arquivos de schema: `/data/meu_schema.json` ou `/data/meu_schema.xsd`.
+
+**2. Construindo e Executando a Imagem Localmente (Alternativa para Desenvolvimento/Customização):**
+
+   Se você deseja modificar o código ou prefere construir a imagem a partir dos fontes:
+
+   **a. Construir a Imagem Docker Localmente:**
    Navegue até o diretório raiz do projeto (onde o `Dockerfile` está localizado) e execute o script de build:
    ```bash
    chmod +x build_docker.sh
    ./build_docker.sh
    ```
-   Isso criará uma imagem Docker chamada `validador-jx:latest`.
+   Isso criará uma imagem Docker local chamada `validador-jx:latest`.
 
-**2. Executar o Validador JX em um Contêiner:**
+   **b. Executar o Validador JX em um Contêiner Local:**
    Após construir a imagem, você pode executar o Validador JX usando o script de execução:
    ```bash
    chmod +x run_docker.sh
    ./run_docker.sh
    ```
-   Isso iniciará o Validador JX em um modo interativo.
-
-**Usando Arquivos Locais com a Versão Docker:**
-   O script `run_docker.sh` monta o seu diretório atual (de onde você o executa) no diretório `/data` dentro do contêiner.
-   Quando o Validador JX (dentro do Docker) pedir um caminho para um arquivo de dados ou um arquivo de schema, você deve fornecer o caminho como se estivesse dentro do contêiner, prefixando com `/data/`.
-
-   *   **Exemplo:** Se você tem um arquivo `meu_arquivo.json` no seu diretório atual no host, e o Validador JX pede o "caminho para o seu arquivo JSON de dados", você digitaria: `/data/meu_arquivo.json`.
-   *   Da mesma forma para arquivos de schema: `/data/meu_schema.json` ou `/data/meu_schema.xsd`.
+   Este script também monta o diretório atual em `/data` e explica como usá-lo.
 
 ## Contribuindo
 [Seção a ser adicionada no futuro, se necessário]
