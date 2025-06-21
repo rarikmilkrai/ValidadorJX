@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script Name: ValidadorJX.sh
-# Description: This script will validate Rarik.
+# Description: This script validate json and xml
 # Author: Rarikmilkrai Souza
 #insta: @oestudantedevops
 #linkedin: Rarik Souza 
